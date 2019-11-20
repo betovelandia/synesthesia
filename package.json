@@ -1,0 +1,25 @@
+{
+  "name": "synesthetes",
+  "version": "0.0.0",
+  "description": "see the sounds",
+  "main": "dist/synesthetes.min.js",
+  "scripts": {
+    "test": "yarn test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/betovelandia/synesthetes.git"
+  },
+  "keywords": [
+    "webgl",
+    "sound",
+    "data",
+    "visualization"
+  ],
+  "author": "Alberto Velandia",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/betovelandia/synesthetes/issues"
+  },
+  "homepage": "https://github.com/betovelandia/synesthetes#readme"
+}
