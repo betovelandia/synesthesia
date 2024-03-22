@@ -1,5 +1,6 @@
 {
   "name": "synesthetes",
+  "type": "module",
   "version": "1.0.0",
   "description": "Inspired by @PavelDoGreat ",
   "scripts": {
