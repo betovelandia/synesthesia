@@ -1,25 +1,27 @@
-export const SIM_RESOLUTION = 128;
-export const CAPTURE_RESOLUTION = 512;
-export const DYE_RESOLUTION = 1024;
-export const DENSITY_DISSIPATION = 1;
-export const VELOCITY_DISSIPATION = 0.2;
-export const PRESSURE = 0.8;
-export const PRESSURE_ITERATIONS = 20;
-export const CURL = 30;
-export const SPLAT_RADIUS = 0.25;
-export const SPLAT_FORCE = 6000;
-export const SHADING = true;
-export const COLORFUL = true;
-export const COLOR_UPDATE_SPEED = 10;
-export const PAUSED = false;
-export const BACK_COLOR = { r: 0, g: 0, b: 0 };
-export const TRANSPARENT = false;
-export const BLOOM = true;
-export const BLOOM_ITERATIONS = 8;
-export const BLOOM_RESOLUTION = 256;
-export const BLOOM_INTENSITY = 0.8;
-export const BLOOM_THRESHOLD = 0.6;
-export const BLOOM_SOFT_KNEE = 0.7;
-export const SUNRAYS = true;
-export const SUNRAYS_RESOLUTION = 196;
-export const SUNRAYS_WEIGHT = 1.0;
+export const guiConfig = {
+'SIM_RESOLUTION': 128,
+'CAPTURE_RESOLUTION': 512,
+'DYE_RESOLUTION': 1024,
+'DENSITY_DISSIPATION': 1,
+'VELOCITY_DISSIPATION': 0.2,
+'PRESSURE': 0.8,
+'PRESSURE_ITERATIONS': 20,
+'CURL': 30,
+'SPLAT_RADIUS': 0.25,
+'SPLAT_FORCE': 6000,
+'SHADING': true,
+'COLORFUL': true,
+'COLOR_UPDATE_SPEED': 10,
+'PAUSED': false,
+'BACK_COLOR': { r: 0, g: 0, b: 0 },
+'TRANSPARENT': false,
+'BLOOM': true,
+'BLOOM_ITERATIONS': 8,
+'BLOOM_RESOLUTION': 256,
+'BLOOM_INTENSITY': 0.8,
+'BLOOM_THRESHOLD': 0.6,
+'BLOOM_SOFT_KNEE': 0.7,
+'SUNRAYS': true,
+'SUNRAYS_RESOLUTION': 196,
+'SUNRAYS_WEIGHT': 1.0,
+};

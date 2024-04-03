@@ -6,6 +6,11 @@ export const isUsingWebGL2 = (canvas: HTMLCanvasElement) => {
   return Boolean(canvas.getContext('wbgl2'));
 };
 
+export const supportsLinearFiltering = (canvas: HTMLCanvasElement) => {
+  const context = getWebGLContext(canvas);
+  return Boolean(context?.ext.supportLinearFiltering);
+}
+
 export const getWebGLContext = (canvas: HTMLCanvasElement) => {
   let halfFloat;
   let supportLinearFiltering;
