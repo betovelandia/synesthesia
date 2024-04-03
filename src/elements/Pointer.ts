@@ -9,4 +9,4 @@ export default class Pointer {
   down = false;
   moved = false;
   color = [30, 0, 300];
-}
+};
