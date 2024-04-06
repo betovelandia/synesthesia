@@ -3,7 +3,7 @@ export const isMobile = () => {
 };
 
 export const isUsingWebGL2 = (canvas: HTMLCanvasElement) => {
-  return Boolean(canvas.getContext('wbgl2'));
+  return Boolean(canvas.getContext('webgl2'));
 };
 
 export const supportsLinearFiltering = (canvas: HTMLCanvasElement) => {
@@ -16,25 +16,22 @@ export const getWebGLContext = (canvas: HTMLCanvasElement) => {
   let supportLinearFiltering;
 
   const gl = canvas.getContext('webgl2', {
-    antialias: false,
     stencil: false,
+    antialias: false,
     depth: false,
     alpha: true
   });
 
   if(!gl) return;
   
-  if (isUsingWebGL2(canvas) ) {
-    gl.getExtension('EXT_color_buffer_float');
-    supportLinearFiltering = gl.getExtension('OES_texture_float_linear');
-  } else {
-    halfFloat = gl.getExtension('OES_texture_float');
-    supportLinearFiltering = gl.getExtension('OES_texture_half_float_linear');
-  }
+  gl.getExtension('EXT_color_buffer_float');
+  supportLinearFiltering = gl.getExtension('OES_texture_float_linear');
 
   gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
-  const halfFloatTexType = isUsingWebGL2(canvas) ? gl.HALF_FLOAT : halfFloat.HALF_FLOAT_OES;
+  if(!halfFloat) return;
+
+  const halfFloatTexType = gl.HALF_FLOAT;
   let formatRGBA;
   let formatRG;
   let formatR;
