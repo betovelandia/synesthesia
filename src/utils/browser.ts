@@ -11,10 +11,40 @@ export const supportsLinearFiltering = (canvas: HTMLCanvasElement) => {
   return Boolean(context?.ext.supportLinearFiltering);
 }
 
-export const getWebGLContext = (canvas: HTMLCanvasElement) => {
-  let halfFloat;
-  let supportLinearFiltering;
+const supportsRenderTextureFormat = (gl: WebGL2RenderingContext, internalFormat: number, format: number, type: number): boolean => {
+  const texture = gl.createTexture();
+  gl.bindTexture(gl.TEXTURE_2D, texture);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  gl.texImage2D(gl.TEXTURE_2D, 0, internalFormat, 4, 4, 0, format, type, null);
+  gl.bindFramebuffer(gl.FRAMEBUFFER, gl.createFramebuffer());
+  gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, texture, 0);
 
+  return gl.checkFramebufferStatus(gl.FRAMEBUFFER) === gl.FRAMEBUFFER_COMPLETE;
+}
+
+function getSupportedFormat(gl: WebGL2RenderingContext, internalFormat: number, format: number, type: number) {
+
+  if (!supportsRenderTextureFormat(gl, internalFormat, format, type)) {
+    switch (internalFormat) {
+      case gl.R16F:
+        return getSupportedFormat(gl, gl.RG16F, gl.RG, type);
+      case gl.RG16F:
+        return getSupportedFormat(gl, gl.RGBA16F, gl.RGBA, type);
+      default:
+        return null;
+    }
+  }
+
+  return {
+    internalFormat,
+    format
+  }
+}
+
+export const getWebGLContext = (canvas: HTMLCanvasElement) => {
   const gl = canvas.getContext('webgl2', {
     stencil: false,
     antialias: false,
@@ -25,29 +55,13 @@ export const getWebGLContext = (canvas: HTMLCanvasElement) => {
   if(!gl) return;
   
   gl.getExtension('EXT_color_buffer_float');
-  supportLinearFiltering = gl.getExtension('OES_texture_float_linear');
-
+  const supportLinearFiltering = gl.getExtension('OES_texture_float_linear');
   gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
-  if(!halfFloat) return;
-
   const halfFloatTexType = gl.HALF_FLOAT;
-  let formatRGBA;
-  let formatRG;
-  let formatR;
-
-  if (isUsingWebGL2(canvas)) {
-    formatRGBA = getSupportedFormat(gl, gl.RGBA16F, gl.RGBA, halfFloatTexType);
-    formatRG = getSupportedFormat(gl, gl.RG16F, gl.RG, halfFloatTexType);
-    formatR = getSupportedFormat(gl, gl.R16F, gl.RED, halfFloatTexType);
-  }
-  else {
-    formatRGBA = getSupportedFormat(gl, gl.RGBA, gl.RGBA, halfFloatTexType);
-    formatRG = getSupportedFormat(gl, gl.RGBA, gl.RGBA, halfFloatTexType);
-    formatR = getSupportedFormat(gl, gl.RGBA, gl.RGBA, halfFloatTexType);
-  }
-
-  ga('send', 'event', isWebGL2 ? 'webgl2' : 'webgl', formatRGBA == null ? 'not supported' : 'supported');
+  const formatRGBA = getSupportedFormat(gl, gl.RGBA16F, gl.RGBA, halfFloatTexType);
+  const formatRG = getSupportedFormat(gl, gl.RG16F, gl.RG, halfFloatTexType);
+  const formatR = getSupportedFormat(gl, gl.R16F, gl.RED, halfFloatTexType);
 
   return {
     gl,
