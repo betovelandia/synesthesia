@@ -1,11 +1,11 @@
 import Pointer from './elements/Pointer'
 import './style.css'
-import { resizeCanvas } from './utils/canvas'
-
-const startGUI = () => {
-}
+import { getWebGLContext } from './utils/browser';
+import { resizeCanvas, createTextureAsync } from './utils/canvas'
 
 const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 const pointers = [new Pointer()];
+const { gl, ext} = getWebGLContext(canvas);
 resizeCanvas(canvas);
-startGUI();
+
+createTextureAsync('LDR_LLL1_0.png');
