@@ -74,9 +74,3 @@ export const getWebGLContext = (canvas: HTMLCanvasElement) => {
     }
   };
 }
-
-declare global {
-  interface CanvasRenderingContext2D {
-    getExtension: () => {};
-  }
-}
